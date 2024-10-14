@@ -10,21 +10,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Zap, TrendingUp, Users, Menu, Linkedin, Twitter, Youtube } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function Home() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted with:', { name, email, message })
-    // Reset the form
-    setName('')
-    setEmail('')
-    setMessage('')
-  }
+  const [state, handleSubmit] = useForm("meoqjrzl");
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const gradientTextClass = "text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-white"
   const thinnerFontClass = "font-light"
@@ -49,6 +39,13 @@ export default function Home() {
       </Link>
     </>
   )
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    await handleSubmit(e);
+    if (state.succeeded) {
+      setFormSubmitted(true);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
@@ -243,33 +240,51 @@ export default function Home() {
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <Input
-                    className="bg-neutral-800 text-white border-gray-700"
-                    placeholder="Your Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                  <Input
-                    className="bg-neutral-800 text-white border-gray-700"
-                    type="email"
-                    placeholder="Your Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                  <Textarea
-                    className="bg-neutral-800 text-white border-gray-700"
-                    placeholder="Your Message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    required
-                  />
-                  <Button type="submit" className={`w-full bg-gradient-to-r from-yellow-500 to-white text-gray-900 hover:from-yellow-600 hover:to-gray-100 ${roundedButtonClass}`}>
-                    Send Message
-                  </Button>
-                </form>
+                {formSubmitted ? (
+                  <div className="bg-neutral-800 p-6 rounded-lg">
+                    <p className="text-green-500 text-lg font-semibold mb-2">Thank you for your message!</p>
+                    <p className="text-gray-300">We'll get back to you soon.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <Input
+                      className="bg-neutral-800 text-white border-gray-700"
+                      id="name"
+                      name="name"
+                      type="text"
+                      placeholder="Your Name"
+                      required
+                    />
+                    <Input
+                      className="bg-neutral-800 text-white border-gray-700"
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="Your Email"
+                      required
+                    />
+                    <ValidationError 
+                      prefix="Email" 
+                      field="email"
+                      errors={state.errors}
+                    />
+                    <Textarea
+                      className="bg-neutral-800 text-white border-gray-700"
+                      id="message"
+                      name="message"
+                      placeholder="Your Message"
+                      required
+                    />
+                    <ValidationError 
+                      prefix="Message" 
+                      field="message"
+                      errors={state.errors}
+                    />
+                    <Button type="submit" disabled={state.submitting} className={`w-full bg-gradient-to-r from-yellow-500 to-white text-gray-900 hover:from-yellow-600 hover:to-gray-100 ${roundedButtonClass}`}>
+                      Send Message
+                    </Button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
