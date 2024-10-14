@@ -40,7 +40,7 @@ export default function Home() {
     </>
   )
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     await handleSubmit(e);
     if (state.succeeded) {
       setFormSubmitted(true);
@@ -148,7 +148,7 @@ export default function Home() {
               <div className="space-y-4">
                 <h2 className={`text-2xl ${thinnerFontClass} tracking-tighter sm:text-3xl md:text-4xl ${gradientTextClass}`}>About Us</h2>
                 <p className="text-gray-300 md:text-lg">
-                  At Switch Dimension, we're passionate about leveraging the power of AI to transform businesses. Our team of expert data scientists and engineers work tirelessly to develop cutting-edge AI solutions that drive real-world results.
+                  At Switch Dimension, we&apos;re passionate about leveraging the power of AI to transform businesses. Our team of expert data scientists and engineers work tirelessly to develop cutting-edge AI solutions that drive real-world results.
                 </p>
                 <p className="text-gray-300 md:text-lg">
                   With years of experience across various industries, we understand the unique challenges businesses face and tailor our AI solutions to meet your specific needs. Our mission is to make AI accessible and impactful for businesses of all sizes.
@@ -174,7 +174,7 @@ export default function Home() {
                 {
                   name: "Sarah Johnson",
                   company: "TechCorp",
-                  quote: "Switch Dimension transformed our business with their AI solutions. We've seen a 40% increase in efficiency!"
+                  quote: "Switch Dimension transformed our business with their AI solutions. We&apos;ve seen a 40% increase in efficiency!"
                 },
                 {
                   name: "Michael Chen",
@@ -189,7 +189,7 @@ export default function Home() {
               ].map((testimonial, index) => (
                 <Card key={index} className="bg-neutral-900 border border-gray-700">
                   <CardContent className="p-6">
-                    <p className="text-gray-300 mb-4">"{testimonial.quote}"</p>
+                    <p className="text-gray-300 mb-4">&quot;{testimonial.quote}&quot;</p>
                     <p className="font-semibold text-white">{testimonial.name}</p>
                     <p className="text-sm text-gray-400">{testimonial.company}</p>
                   </CardContent>
@@ -236,14 +236,14 @@ export default function Home() {
                   Get in Touch
                 </h2>
                 <p className="mx-auto max-w-[600px] text-gray-300 md:text-lg">
-                  Ready to start your AI journey? Contact us today and let's discuss how we can help transform your business.
+                  Ready to start your AI journey? Contact us today and let&apos;s discuss how we can help transform your business.
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
                 {formSubmitted ? (
                   <div className="bg-neutral-800 p-6 rounded-lg">
                     <p className="text-green-500 text-lg font-semibold mb-2">Thank you for your message!</p>
-                    <p className="text-gray-300">We'll get back to you soon.</p>
+                    <p className="text-gray-300">We&apos;ll get back to you soon.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleFormSubmit} className="space-y-4">
